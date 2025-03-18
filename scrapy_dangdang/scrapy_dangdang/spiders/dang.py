@@ -6,6 +6,10 @@ class DangSpider(scrapy.Spider):
     allowed_domains = ["category.dangdang.com"]
     start_urls = ["https://category.dangdang.com/cp01.54.06.19.00.00.html"]
 
+    base_url = 'https://category.dang.com/pg'
+    page = 1
+    MAX_PAGE = 3
+
     def parse(self, response):
         li_list = response.xpath('//ul[@id="component_59"]/li')
 
@@ -23,4 +27,9 @@ class DangSpider(scrapy.Spider):
             # 返回一个值给管道
             yield book
 
+        # 翻页
+        if self.page < self.MAX_PAGE:
+            self.page += 1
+            url = self.base_url + str(self.page) + '-cp01.54.06.19.00.00.html'
 
+            yield scrapy.Request(url = url, callback = self.parse)
