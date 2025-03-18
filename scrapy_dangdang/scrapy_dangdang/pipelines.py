@@ -5,7 +5,6 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
 
 
 class ScrapyDangdangPipeline:
@@ -20,3 +19,13 @@ class ScrapyDangdangPipeline:
 
     def close_spider(self, spider):
         self.fp.close()
+
+import urllib.request
+class DangdangDownloadPipeline:
+    def process_item(self, item, spider):
+        url = 'http:' + item.get('src')
+        filename = './books/' + item.get('name') + '.jpg'
+
+        urllib.request.urlretrieve(url = url, filename = filename)
+
+        return item
