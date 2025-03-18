@@ -1,5 +1,5 @@
 import scrapy
-
+from ..items import ScrapyDangdangItem
 
 class DangSpider(scrapy.Spider):
     name = "dang"
@@ -18,6 +18,9 @@ class DangSpider(scrapy.Spider):
             name = li.xpath('.//img/@alt').extract_first()
             price = li.xpath('.//p[@class="price"]/span[1]/text()').extract_first()
 
-            print(src, name, price)
+            book = ScrapyDangdangItem(src = src, name = name, price = price)
+
+            # 返回一个值给管道
+            yield book
 
 

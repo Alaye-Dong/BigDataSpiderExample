@@ -9,5 +9,14 @@ from itemadapter import ItemAdapter
 
 
 class ScrapyDangdangPipeline:
+    def open_spider(self, spider):
+        self.fp = open("book.json", "w", encoding="utf-8")
+
+    # item: yield的book对象
     def process_item(self, item, spider):
+        self.fp.write(str(item))
+
         return item
+
+    def close_spider(self, spider):
+        self.fp.close()
