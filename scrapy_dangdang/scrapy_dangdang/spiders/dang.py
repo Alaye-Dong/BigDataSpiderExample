@@ -1,4 +1,6 @@
 import scrapy
+from scrapy import cmdline
+
 from ..items import ScrapyDangdangItem
 
 class DangSpider(scrapy.Spider):
@@ -11,6 +13,9 @@ class DangSpider(scrapy.Spider):
     MAX_PAGE = 3
 
     def parse(self, response):
+        # 提示当前正在爬取的页面
+        self.logger.info(f"正在爬取第 {self.page} 页")
+
         li_list = response.xpath('//ul[@id="component_59"]/li')
 
         for li in li_list:
@@ -32,4 +37,6 @@ class DangSpider(scrapy.Spider):
             self.page += 1
             url = self.base_url + str(self.page) + '-cp01.54.06.19.00.00.html'
 
+            # 提示即将爬取下一页
+            self.logger.info(f"准备爬取第 {self.page} 页")
             yield scrapy.Request(url = url, callback = self.parse)
