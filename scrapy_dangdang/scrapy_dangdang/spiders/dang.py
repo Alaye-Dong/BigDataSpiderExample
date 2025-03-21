@@ -2,7 +2,8 @@ import scrapy
 from scrapy import cmdline
 
 from ..items import ScrapyDangdangItem
-
+# cd scrapy_dangdang/scrapy_dangdang/spiders
+# scrapy crawl dang
 class DangSpider(scrapy.Spider):
     name = "dang"
     allowed_domains = ["category.dangdang.com"]
@@ -40,3 +41,7 @@ class DangSpider(scrapy.Spider):
             # 提示即将爬取下一页
             self.logger.info(f"准备爬取第 {self.page} 页")
             yield scrapy.Request(url = url, callback = self.parse)
+
+
+if __name__ == '__main__':
+    cmdline.execute("scrapy crawl dang".split())
